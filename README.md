@@ -1,14 +1,72 @@
 # DDQNTSCA-PER: A Double Deep Q-Network with Prioritized Experience Replay for Decentralized Traffic Signal Control: 
-This project offers a framework for optimizing traffic flow at complex intersections using a Double Deep Q-network along with Experience replay. By intelligently selecting traffic light phases, the agent aims to maximize traffic efficiency.
-****DDQNTSCA-PER**: 
-**Framework**: DDQNTSCA-PER.
-**Context**: Traffic signal control at a multiple intersection.
-**Environment**: Features a 4-way intersection with two incoming and two outgoing lanes per arm, each 150 meters long. Traffic lights are positioned such that each arm has dedicated lanes for specific movements.
-**Traffic Generation:** Each episode generates 2,000 and 4,000 cars using the Weibull distribution and the normal distribution, following a dynamic pattern that contributes to the complexity of the environment.
-Agent (DDQNTSCA-PER):
-**Combined State Index (CSI)**: Compact representation integrating vehicle presence, speed normalization, and signal phase context.
-**Action**: Selection of traffic light phases from predetermined options, each lasting 10 seconds.**
-**Reward**: Based on cumulative waiting time reduction, incentivizing efficient traffic management.**
-**Learning Mechanism**: Utilizes the Q-learning equation and a double deep Q neural network to update action values and learn state-action relationships.
-**Neighbor-Aware Coordination**: Facilitates decentralized interaction between intersections.
-**Improved Convergence Behavior**: Demonstrated via added training curves and stability analysis.
+# README — Table 6 Statistical Analysis (Revised Manuscript)
+
+## Overview
+This folder contains the analysis files, data, and code used to compute the
+statistics presented in **Table 6** of the revised manuscript submitted to
+*Cluster Computing (2025)*.
+
+All reported values — **mean, minimum, maximum, standard deviation (SD),
+median, interquartile range (IQR), and 95% confidence intervals (CI)** —
+were computed directly from **raw per-episode simulation data** generated
+during SUMO experiments (505 episodes total).
+
+---
+
+## Contents
+
+| File Name | Description |
+|------------|--------------|
+| `gph.xlsx` | Raw per-episode simulation data (each column represents a method). |
+| `per_episode_data.csv` | Cleaned CSV version of `gph.xlsx` with labeled columns. |
+| `table6_summary_stats.csv` | Computed summary statistics for each method. |
+| `table6_generated.tex` | LaTeX-formatted table for inclusion in the manuscript (Table 6). |
+| `stats_table6.py` | Python script that performs all statistical computations. |
+| `README_Table6_Revised.md` | This documentation file. |
+
+---
+
+## Analysis Environment
+
+- **Language:** Python 3.10  
+- **Libraries:**  
+  - `pandas` (v2.2+)  
+  - `numpy` (v1.26+)  
+  - `scipy` (v1.13+)  
+- **Simulator:** SUMO 1.20.0 (Simulation of Urban Mobility)
+
+---
+
+## Methodology
+
+1. **Raw Data Collection:**  
+   Each SUMO episode recorded per-vehicle metrics such as waiting time,
+   travel time, and queue length at every signalized intersection.
+
+2. **Aggregation:**  
+   The episode-level aggregates (average waiting time per episode) were
+   exported to `gph.xlsx`.
+
+3. **Statistical Computation:**  
+   The following statistics were computed for each method:
+
+   - \( N \): number of episodes (505)  
+   - \( \text{Mean}, \text{Min}, \text{Max}, \text{SD}, \text{Median}, \text{IQR} \)
+   - **95% Confidence Interval (CI):**
+     \[
+     CI = \bar{x} \pm t_{\alpha/2,\,n-1} \times \frac{s}{\sqrt{n}}
+     \]
+     where \( \bar{x} \) is the mean, \( s \) is the sample standard deviation,
+     and \( n \) is the number of episodes.
+
+4. **Output Files:**  
+   The computed statistics are saved in CSV and LaTeX formats for
+   reproducibility and direct inclusion in the revised manuscript.
+
+---
+
+## How to Reproduce
+
+### Step 1 — Install Dependencies
+```bash
+pip install numpy pandas scipy
